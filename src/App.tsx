@@ -47,6 +47,8 @@ function App() {
   const channel = useRef("");
   // you can apply appid follow the guide https://www.agora.io/en/blog/how-to-get-started-with-agora/
   const appid = useRef("");
+  // you can apply token follow the guide https://www.agora.io/en/blog/how-to-get-started-with-agora/
+  const token = useRef("");
 
   const joinChannel = async () => {
     if (!channel.current) {
@@ -59,7 +61,12 @@ function App() {
 
     client.on("user-published", onUserPublish);
 
-    await client.join(appid.current, channel.current, null, null);
+    await client.join(
+      appid.current,
+      channel.current,
+      token.current || null,
+      null
+    );
     setIsJoined(true);
   };
 
@@ -126,7 +133,7 @@ function App() {
           </button>
         </div>
         <h3>
-          {`Please input the appid (`}
+          {`Please input the appid and token (`}
           <a href="https://www.agora.io/en/blog/how-to-get-started-with-agora">
             Create an account.
           </a>
@@ -134,7 +141,13 @@ function App() {
         </h3>
         <input
           defaultValue={appid.current}
+          placeholder="appid"
           onChange={(e) => (appid.current = e.target.value)}
+        />
+        <input
+          defaultValue={token.current}
+          placeholder="token"
+          onChange={(e) => (token.current = e.target.value)}
         />
         <h3>Please input the channel name</h3>
         <input
